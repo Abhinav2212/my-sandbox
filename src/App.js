@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import React, { useState, useEffect } from "react";
+import ProgressBar from "./Component/Progress";
+
 
 function App() {
+  const [completed, setCompleted] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCompleted((prev) => {
+        if (prev >= 100) {
+          clearInterval(intervalId);
+          return 100;
+        } else {
+          return prev + 10;
+        }
+      });
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ProgressBar bgcolor={"#6a1b9a"} completed={completed} />
     </div>
   );
 }
